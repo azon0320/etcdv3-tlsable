@@ -28,11 +28,23 @@ func NewRegistry(opts ...registry.Option) registry.Registry {
 	presetOpts := make([]registry.Option, 0)
 	if os.Getenv(ENV_USERNAME) != "" {
 		if isDebug() {
-			fmt.Println("[ETCDV3TLS] inject credentials")
+			fmt.Println("[ETCDV3TLS] inject auth")
+		}
+		username := os.Getenv(ENV_USERNAME)
+		if isDebug() {
+			fmt.Println("[ETCDV3TLS] attempt got username from env")
+		}
+		password := os.Getenv(ENV_PASSWORD)
+		if isDebug() {
+			fmt.Println("[ETCDV3TLS] attempt got password from env")
+		}
+		auth := etcd.Auth(username, password)
+		if isDebug() {
+			fmt.Println("[ETCDV3TLS] auth option generated")
 		}
 		presetOpts = append(
 			presetOpts,
-			etcd.Auth(os.Getenv(ENV_USERNAME), os.Getenv(ENV_PASSWORD)),
+			auth,
 		)
 	}
 	if os.Getenv(ENV_SECURE) == "true" {
