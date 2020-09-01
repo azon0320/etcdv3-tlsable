@@ -52,6 +52,7 @@ func NewRegistry(opts ...registry.Option) registry.Registry {
 		fmt.Println("[ETCDV3TLS] preset timeout ", mockOpts.Timeout)
 	}
 	presetOpts := make([]registry.Option, 0)
+	presetOpts = append(presetOpts, registry.Addrs(os.Getenv("MICRO_REGISTRY_ADDRESS")))
 	if os.Getenv(ENV_USERNAME) != "" {
 		if isDebug() {
 			fmt.Println("[ETCDV3TLS] inject auth")
