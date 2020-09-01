@@ -1,4 +1,4 @@
-module github.com/azon0320/etcdv3_tlsable
+module github.com/azon0320/etcdv3-tlsable
 
 go 1.13
 
