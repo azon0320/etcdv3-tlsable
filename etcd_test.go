@@ -6,7 +6,7 @@ import (
 )
 
 func TestEtcdSecure(t *testing.T) {
-	os.Setenv(ENV_USETLS, "true")
+	os.Setenv(ENV_SECURE, "true")
 	reg := NewRegistry()
 	if !reg.Options().Secure {
 		t.Fatalf("expect: %v, got: %v", true, reg.Options().Secure)

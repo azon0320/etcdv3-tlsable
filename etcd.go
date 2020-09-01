@@ -11,11 +11,11 @@ import (
 const (
 	ENV_USERNAME = "MICRO_ETCDV3_USERNAME"
 	ENV_PASSWORD = "MICRO_ETCDV3_PASSWORD"
-	ENV_USETLS   = "MICRO_ETCDV3_USETLS"
+	ENV_SECURE   = "MICRO_ETCDV3_SECURE"
 )
 
 func init() {
-	cmd.DefaultRegistries["etcdv3_tlsable"] = etcd.NewRegistry
+	cmd.DefaultRegistries["etcdv3_tlsable"] = NewRegistry
 }
 
 func NewRegistry(opts ...registry.Option) registry.Registry {
@@ -26,7 +26,7 @@ func NewRegistry(opts ...registry.Option) registry.Registry {
 			etcd.Auth(os.Getenv(ENV_USERNAME), os.Getenv(ENV_PASSWORD)),
 		)
 	}
-	if os.Getenv(ENV_USETLS) == "true" {
+	if os.Getenv(ENV_SECURE) == "true" {
 		presetOpts = append(
 			presetOpts,
 			registry.Secure(true),
