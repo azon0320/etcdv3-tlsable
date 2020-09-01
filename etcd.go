@@ -12,6 +12,7 @@ import (
 
 const (
 	ENV_DEBUG    = "MICRO_ETCDV3_DEBUG"
+	ENV_ADDRESS  = "MICRO_REGISTRY_ADDRESS"
 	ENV_USERNAME = "MICRO_ETCDV3_USERNAME"
 	ENV_PASSWORD = "MICRO_ETCDV3_PASSWORD"
 	ENV_SECURE   = "MICRO_ETCDV3_SECURE"
@@ -38,7 +39,8 @@ func init() {
 }
 
 func isDebug() bool {
-	return os.Getenv(ENV_DEBUG) == "true"
+	debu := os.Getenv(ENV_DEBUG)
+	return debu == "true" || debu == "debug"
 }
 
 func NewRegistry(opts ...registry.Option) registry.Registry {
@@ -52,7 +54,11 @@ func NewRegistry(opts ...registry.Option) registry.Registry {
 		fmt.Println("[ETCDV3TLS] preset timeout ", mockOpts.Timeout)
 	}
 	presetOpts := make([]registry.Option, 0)
-	presetOpts = append(presetOpts, registry.Addrs(os.Getenv("MICRO_REGISTRY_ADDRESS")))
+	address := os.Getenv(ENV_ADDRESS)
+	if address == "" && isDebug() {
+		fmt.Println("[ETCDV3TLS] WARN registry address empty")
+	}
+	presetOpts = append(presetOpts, registry.Addrs(os.Getenv(ENV_ADDRESS)))
 	if os.Getenv(ENV_USERNAME) != "" {
 		if isDebug() {
 			fmt.Println("[ETCDV3TLS] inject auth")

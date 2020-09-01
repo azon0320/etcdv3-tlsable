@@ -50,3 +50,10 @@ Specify if enable secure connection
 ~~~
 MICRO_ETCDV3_SECURE=true micro web
 ~~~
+
+## MICRO_REGISTRY_ADDRESS
+Specify etcd address
+### Example
+~~~
+MICRO_REGISTRY_ADDRESS=etcd_tls:2379 micro web
+~~~
